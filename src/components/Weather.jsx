@@ -26,6 +26,7 @@ export default function Weather() {
   const [data, setData] = useState(null);
   const [location, setLocation] = useState("Islamabad");
   const [inputValue, setInputValue] = useState("");
+  const [errorMsg, setErrorMsg] = useState("");
 
   const handleInput = (e) => {
     setInputValue(e.target.value);
@@ -44,7 +45,16 @@ export default function Weather() {
   //fetch weather data
   useEffect(() => {
     const url = `https://api.openweathermap.org/data/2.5/weather?q=${location}&units=metric&appid=${APIKey}`;
-    axios.get(url).then((response) => setData(response.data));
+    axios
+      .get(url)
+      .then((response) => {
+        setData(response.data);
+        setErrorMsg(""); // Clear any previous error message
+      })
+      .catch((error) => {
+        setErrorMsg("Location not found");
+        // setData(null); // Clear data if there's an error
+      });
   }, [location]);
 
   if (!data) {
@@ -92,8 +102,11 @@ export default function Weather() {
     <>
       <div className="flex flex-col justify-center items-center bg-black/30 rounded-3xl p-10 w-full gap-5 ">
         <div className=" w-full max-w-[450px]">
+          <div className="flex justify-center items-center text-red-500">
+            <h3>{errorMsg}</h3>
+          </div>
           <form onChange={(e) => handleInput(e)}>
-            <div className="flex justify-between items-center bg-black/50 text-white p-2 rounded-full gap-2">
+            <div className="flex justify-between items-center bg-black/50 text-white p-2 mt-2 rounded-full gap-2">
               <div className="flex flex-1">
                 <input
                   type="text"
