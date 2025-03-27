@@ -11,4 +11,8 @@ body {
     rgba(9, 9, 121, 1) 35%,
     rgba(0, 212, 255, 1) 100%
   );
+  /* background: url("/public/dark-stormy-clouds.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat; */
 }
