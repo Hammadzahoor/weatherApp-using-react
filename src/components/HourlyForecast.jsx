@@ -42,7 +42,7 @@ const HourlyForecast = ({ hourlyData }) => {
     scales: {
       y: {
         // suggestedMin: 0,
-        beginAtZero: true,
+        // beginAtZero: true,
         suggestedMax: 50,
         ticks: {
           color: "white",
