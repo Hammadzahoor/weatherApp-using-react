@@ -93,7 +93,7 @@ const HourlyForecast = ({ hourlyData }) => {
   };
 
   return (
-    <div className="w-full max-w-[800px] bg-black/30 rounded-3xl p-8 mt-8">
+    <div className=" flex justify-center items-center w-full max-w-[800px] bg-black/30 rounded-3xl p-8 mt-8">
       <Line options={options} data={data} />
     </div>
   );
