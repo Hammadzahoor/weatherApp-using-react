@@ -1,12 +1,51 @@
-# React + Vite
+# Weather Application
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A simple weather application built with React that allows users to search for current weather conditions and a 5-day forecast by city or country.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Search for weather by city or country.
+- Displays current weather conditions including temperature, humidity, visibility, and wind speed.
+- Shows a 5-day hourly forecast.
+- User-friendly interface with weather icons.
 
-## Expanding the ESLint configuration
+## Technologies Used
 
-If you are developing a production application, we recommend using TypeScript and enable type-aware lint rules. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- React
+- Axios for API calls
+- OpenWeatherMap API for weather data
+- React Icons for UI components
+
+## Installation
+
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/Hammadzahoor/weatherApp-using-react.git
+   cd weatherApp-using-react
+   ```
+
+2. Install dependencies:
+
+   ```bash
+   npm install
+   ```
+
+3. Create a `.env` file in the root directory and add your OpenWeatherMap API key:
+
+   ```plaintext
+   VITE_API_KEY=your_api_key_here
+   ```
+
+4. Start the development server:
+
+   ```bash
+   npm run dev
+   ```
+
+5. Open your browser and navigate to `http://localhost:5173` to view the application.
+
+## Usage
+
+- Enter a city or country in the search bar and click the search button.
+- The application will display the current weather and a 5-day forecast.
