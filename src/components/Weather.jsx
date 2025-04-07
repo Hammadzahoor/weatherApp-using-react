@@ -21,7 +21,7 @@ import { ImSpinner8 } from "react-icons/im";
 import HourlyForecast from "./HourlyForecast";
 
 //api key
-const APIKey = "86d09a83fb0cb8a87e87d65bd5633cd7";
+const APIKey = import.meta.env.VITE_API_KEY;
 
 export default function Weather() {
   const [data, setData] = useState(null);
