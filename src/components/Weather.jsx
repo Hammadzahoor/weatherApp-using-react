@@ -18,12 +18,14 @@ import {
 } from "react-icons/bs";
 import { TbTemperatureCelsius } from "react-icons/tb";
 import { ImSpinner8 } from "react-icons/im";
+import HourlyForecast from "./HourlyForecast";
 
 //api key
 const APIKey = "86d09a83fb0cb8a87e87d65bd5633cd7";
 
 export default function Weather() {
   const [data, setData] = useState(null);
+  const [hourlyData, setHourlyData] = useState(null);
   const [location, setLocation] = useState("Islamabad");
   const [inputValue, setInputValue] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
@@ -44,17 +46,24 @@ export default function Weather() {
 
   //fetch weather data
   useEffect(() => {
-    const url = `https://api.openweathermap.org/data/2.5/weather?q=${location}&units=metric&appid=${APIKey}`;
-    axios
-      .get(url)
-      .then((response) => {
-        setData(response.data);
-        setErrorMsg(""); // Clear any previous error message
-      })
-      .catch((error) => {
+    const fetchWeatherData = async () => {
+      try {
+        // Fetch current weather
+        const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?q=${location}&units=metric&appid=${APIKey}`;
+        const weatherResponse = await axios.get(weatherUrl);
+        setData(weatherResponse.data);
+        setErrorMsg("");
+
+        // Fetch 5-day forecast
+        const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${location}&appid=${APIKey}&units=metric`;
+        const forecastResponse = await axios.get(forecastUrl);
+        setHourlyData(forecastResponse.data.list);
+      } catch (error) {
         setErrorMsg("Location not found");
-        // setData(null); // Clear data if there's an error
-      });
+      }
+    };
+
+    fetchWeatherData();
   }, [location]);
 
   if (!data) {
@@ -195,6 +204,7 @@ export default function Weather() {
           </div>
         </div>
       </div>
+      {hourlyData && <HourlyForecast hourlyData={hourlyData} />}
     </>
   );
 }
