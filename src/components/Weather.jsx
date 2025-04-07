@@ -18,14 +18,12 @@ import {
 } from "react-icons/bs";
 import { TbTemperatureCelsius } from "react-icons/tb";
 import { ImSpinner8 } from "react-icons/im";
-import HourlyForecast from "./HourlyForecast";
 
 //api key
-const APIKey = import.meta.env.VITE_API_KEY;
+const APIKey = "86d09a83fb0cb8a87e87d65bd5633cd7";
 
 export default function Weather() {
   const [data, setData] = useState(null);
-  const [hourlyData, setHourlyData] = useState(null);
   const [location, setLocation] = useState("Islamabad");
   const [inputValue, setInputValue] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
@@ -35,40 +33,34 @@ export default function Weather() {
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault();
+    e.preventDefault(); //prevent page from refreshing
     if (inputValue !== "") {
       setLocation(inputValue);
     }
     const input = document.querySelector("input");
     input.value = "";
+    console.log(inputValue);
   };
 
   //fetch weather data
   useEffect(() => {
-    const fetchWeatherData = async () => {
-      try {
-        // Fetch current weather
-        const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?q=${location}&units=metric&appid=${APIKey}`;
-        const weatherResponse = await axios.get(weatherUrl);
-        setData(weatherResponse.data);
-        setErrorMsg("");
-
-        // Fetch 5-day forecast
-        const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${location}&appid=${APIKey}&units=metric`;
-        const forecastResponse = await axios.get(forecastUrl);
-        setHourlyData(forecastResponse.data.list);
-      } catch (error) {
+    const url = `https://api.openweathermap.org/data/2.5/weather?q=${location}&units=metric&appid=${APIKey}`;
+    axios
+      .get(url)
+      .then((response) => {
+        setData(response.data);
+        setErrorMsg(""); // Clear any previous error message
+      })
+      .catch((error) => {
         setErrorMsg("Location not found");
-      }
-    };
-
-    fetchWeatherData();
+        // setData(null); // Clear data if there's an error
+      });
   }, [location]);
 
   if (!data) {
     return (
       <div className="flex justify-center items-center h-screen">
-        <ImSpinner8 className="text-white animate-spin h-12 w-12" />
+        <ImSpinner8 className=" text-white animate-spin h-12 w-12" />
       </div>
     );
   }
@@ -102,13 +94,13 @@ export default function Weather() {
       icon = <IoMdSunny />;
   }
 
-  // console.log("Data: ", data);
+  // console.log(data);
 
   let date = new Date();
 
   return (
     <>
-      <div className="flex flex-col justify-center items-center bg-black/30 rounded-3xl p-8 w-full gap-5">
+      <div className="flex flex-col justify-center items-center bg-black/30 rounded-3xl p-10 w-full gap-5 ">
         <div className=" w-full max-w-[450px]">
           <div className="flex justify-center items-center text-red-500">
             <h3>{errorMsg}</h3>
@@ -119,11 +111,11 @@ export default function Weather() {
                 <input
                   type="text"
                   placeholder="Search by City or Country"
-                  className="h-10 pl-3 outline-none rounded-full flex-1"
+                  className="h-12 pl-3 outline-none rounded-full flex-1"
                   onChange={handleInput}
                 />
               </div>
-              <div className="flex items-center justify-center bg-blue-500 p-2 w-20 h-10 rounded-full">
+              <div className="flex items-center justify-center bg-blue-500 p-2 w-20 h-12 rounded-full">
                 <button
                   onClick={(e) => handleSubmit(e)}
                   className=" cursor-pointer"
@@ -138,9 +130,9 @@ export default function Weather() {
         <div className="flex flex-col justify-center  bg-black/30 rounded-3xl p-8 w-full max-w-[450px] text-white">
           {/* Card Top */}
           <div className="flex items-center gap-5 ">
-            <div className="text-[80px]">{icon}</div>
+            <div className="text-[100px]">{icon}</div>
             <div>
-              <div className="text-xl font-bold">
+              <div className="text-2xl font-bold">
                 {data.name},{data.sys.country}
               </div>
               <div>
@@ -152,10 +144,9 @@ export default function Weather() {
           {/* Card Body */}
           <div>
             <div>
-              <div className="flex text-[80px] justify-center items-center">
-                {/* {parseInt(data.main.temp)} */}
-                {data.main.temp.toFixed(1)}
-                <TbTemperatureCelsius className="text-3xl" />
+              <div className="flex text-[100px] justify-center items-center">
+                {parseInt(data.main.temp)}
+                <TbTemperatureCelsius className="text-4xl" />
               </div>
               <div className="capitalize text-center">
                 {data.weather[0].description}
@@ -163,8 +154,8 @@ export default function Weather() {
             </div>
           </div>
           {/* Card Bottom */}
-          <div className=" w-full mt-6 max-w-[350px] flex flex-col justify-center gap-y-3">
-            <div className="row flex gap-8">
+          <div className=" w-full mt-15 max-w-[350px] flex flex-col justify-center gap-y-4">
+            <div className="row flex gap-10">
               <div className="col flex gap-x-2">
                 <div>
                   <BsEye className="text-[20px]" />
@@ -204,7 +195,6 @@ export default function Weather() {
           </div>
         </div>
       </div>
-      {hourlyData && <HourlyForecast hourlyData={hourlyData} />}
     </>
   );
 }

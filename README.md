@@ -2,6 +2,8 @@
 
 A simple weather application built with React that allows users to search for current weather conditions and a 5-day forecast by city or country.
 
+![Weather App image](</weatherapp image.png>)
+
 ## Features
 
 - Search for weather by city or country.
